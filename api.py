@@ -15,7 +15,7 @@ from execution_engine import ExecutionResult
 
 # ============================================
 # App Initialization
-#=============================================
+# ============================================
 
 app = FastAPI(
     title="Registry Application",
@@ -41,7 +41,7 @@ platform = ScriptPlatform(timeout=30, log_dir="logs")
 
 # ============================================
 # Pydantic Models
-#=============================================
+# ============================================
 
 class RegisterScriptRequest(BaseModel):
     name: str
@@ -78,7 +78,7 @@ class RunAllResponse(BaseModel):
 
 # ============================================
 # Helper - Convert ExecutionResult to Response
-#=============================================
+# ============================================
 
 def format_result(result: ExecutionResult) -> ExecutionResultResponse:
     """Convert an ExecutionResult dataclass to a Pydantic response model"""
@@ -95,7 +95,7 @@ def format_result(result: ExecutionResult) -> ExecutionResultResponse:
 
 # ============================================
 # Health Check
-#=============================================
+# ============================================
 
 @app.get("/health", tags=["System"])
 def health_check():
@@ -104,7 +104,7 @@ def health_check():
 
 # ============================================
 # Script Registration Endpoints
-#=============================================
+# ============================================
 
 @app.get("/scripts/register", response_model=ScriptEntryResponse, tags=["Registry"])
 def register_script(payload: RegisterScriptRequest):
@@ -168,7 +168,7 @@ def disable_script(name: str):
 
 # ============================================
 # Script Listing Endpoints
-#=============================================
+# ============================================
 
 @app.get("/scripts", response_model=List[ScriptEntryResponse], tags=["Registry"])
 def list_scripts(tag: Optional[str] = Query(None, description="Filter by tag")):
@@ -192,7 +192,7 @@ def list_scripts(tag: Optional[str] = Query(None, description="Filter by tag")):
     
 # ============================================
 # ✅FIXED: /scripts/run-all Endpoint
-#=============================================
+# ============================================
 
 @app.post("/script/run-all", response_model=RunAllResponse, tags=["Execution"])
 def run_all_scripts(
@@ -306,7 +306,7 @@ def run_all_scripts(
     
 # ============================================
 # Single Script Execution
-#=============================================
+# ============================================
 
 @app.post("/scripts/{name}/run", response_model=ExecutionResultResponse, tags=["Execution"])
 def run_script(name: str, payload: RunScriptRequest = RunScriptRequest()):
@@ -339,7 +339,7 @@ def run_script(name: str, payload: RunScriptRequest = RunScriptRequest()):
 
 # ============================================
 # Results History
-#=============================================
+# ============================================
 
 @app.get("/results", response_model=List[ExecutionResultResponse], tags=["Results"])
 def get_results():
@@ -388,7 +388,7 @@ def clear_results():
 
 # ============================================
 # Static Frontend
-#=============================================
+# ============================================
 
 FRONT_DIR = "static"
 
@@ -419,7 +419,7 @@ else:
     
 # ============================================
 # Outputs
-#=============================================
+# ============================================
 
 OUTPUT_DIR = "outputs"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
